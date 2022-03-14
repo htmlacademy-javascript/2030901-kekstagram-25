@@ -1,6 +1,5 @@
 import {createdPhoto} from './data.js';
+import {showPhotos} from './showPhotos.js';
 
-// eslint-disable-next-line no-console
-console.log(
-  createdPhoto()
-);
+const allPhotos = createdPhoto();
+showPhotos(allPhotos);
