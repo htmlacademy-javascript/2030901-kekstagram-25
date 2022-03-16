@@ -47,7 +47,7 @@ const getRandomPhoto = () => {
   const currentPhotoId = globalIdPhoto++;
   return {
     id:currentPhotoId,
-    url:`photos/${currentPhotoId}.png`,
+    url:`photos/${currentPhotoId}.jpg`,
     description:getRandomArrayElement(DESCRIPTION),
     likes:getRandomInt(15,200),
     comments: Array.from({length: getRandomInt(1, 3)}, getRandomComments)
