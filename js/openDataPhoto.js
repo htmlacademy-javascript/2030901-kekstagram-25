@@ -1,7 +1,7 @@
 const cardBigPhoto = document.querySelector('.big-picture');
 const cardBigPhotoImage = cardBigPhoto.querySelector('.big-picture__img img');
 const closeBigPhoto = document.querySelector('.big-picture__cancel');
-const commentTemplate = document.querySelector('#social-comment').content;
+const commentTemplate = cardBigPhoto.querySelector('.social__comment');
 const likesCount = cardBigPhoto.querySelector('.likes-count');
 const commentsCount = cardBigPhoto.querySelector('.comments-count');
 
