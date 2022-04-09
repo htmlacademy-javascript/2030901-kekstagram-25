@@ -1,4 +1,4 @@
-import {checkLengthString, isEscapeKey} from './util.js';
+import {isEscapeKey} from './util.js';
 
 const uploadPhoto = document.querySelector('#upload-file');
 const overlayForm = document.querySelector('.img-upload__overlay');
