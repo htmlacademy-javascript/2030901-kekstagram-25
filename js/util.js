@@ -12,5 +12,5 @@ function checkLengthString(checkString,maxLength){
 }
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
-
-export {getRandomInt, checkLengthString, getRandomArrayElement};
+const isEscapeKey = (evt) => evt.key==='Escape';
+export {getRandomInt, checkLengthString, getRandomArrayElement, isEscapeKey};
