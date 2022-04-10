@@ -1403,3 +1403,7 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__error {
+  display: block;
+}
