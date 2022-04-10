@@ -50,7 +50,7 @@ const getRandomPhoto = () => {
     url:`photos/${currentPhotoId}.jpg`,
     description:getRandomArrayElement(DESCRIPTION),
     likes:getRandomInt(15,200),
-    comments: Array.from({length: getRandomInt(1, 3)}, getRandomComments)
+    comments: Array.from({length: getRandomInt(1, 15)}, getRandomComments)
   };
 };
 const createdPhoto = () => Array.from({length: 25}, getRandomPhoto);
