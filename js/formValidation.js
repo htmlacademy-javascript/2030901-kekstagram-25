@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {resetEffects} from './slider.js';
 
 const uploadPhoto = document.querySelector('#upload-file');
 const overlayForm = document.querySelector('.img-upload__overlay');
@@ -24,6 +25,8 @@ function closeForm() {
   document.body.classList.remove('modal-open');
   uploadPhotoForm.reset();
   pristine.reset();
+  document.getElementById('effect-none').checked = true;
+  resetEffects();
 }
 
 function checkEscapeDown()
