@@ -1420,3 +1420,15 @@ main {
 .img-upload__error {
   display: block;
 }
+
+.alert-bad-request{
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  right: 0;
+  padding: 10px 3px;
+  font-size: 20px;
+  text-align: center;
+  background-color: #fd4d4d;
+  color: black;
+}

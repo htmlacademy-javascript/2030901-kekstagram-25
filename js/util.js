@@ -11,6 +11,11 @@ function checkLengthString(checkString,maxLength){
   return checkString.length <= maxLength;
 }
 
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 const isEscapeKey = (evt) => evt.key==='Escape';
-export {getRandomInt, checkLengthString, getRandomArrayElement, isEscapeKey};
+const showAlert = (text)=>{
+  const alert = document.querySelector('#alert-bad-request').content.querySelector('.alert-bad-request').cloneNode(true);
+  alert.textContent = text;
+  document.body.appendChild(alert);
+};
+
+export {showAlert, getRandomInt, checkLengthString, isEscapeKey};

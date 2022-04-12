@@ -1,10 +1,12 @@
 import {isEscapeKey} from './util.js';
 import {resetEffects} from './slider.js';
+import {sendData} from './api.js';
 
 const uploadPhoto = document.querySelector('#upload-file');
 const overlayForm = document.querySelector('.img-upload__overlay');
 const uploadPhotoForm = document.querySelector('#upload-select-image');
 const regularExpression = /^#[a-zа-яё0-9]{1,19}$/;
+const submitButton = uploadPhotoForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(uploadPhotoForm, {
   classTo: 'img-upload',
@@ -15,9 +17,30 @@ const pristine = new Pristine(uploadPhotoForm, {
   errorTextClass: 'img-upload__error'
 });
 
+function showMessage(type) {
+  const message = document.querySelector(`#${type}`).content.querySelector(`.${type}`).cloneNode(true);
+  const messageAlert = message.querySelector(`.${type}__inner`);
+  const button = messageAlert.querySelector(`.${type}__button`);
+  button.addEventListener('click', () => {
+    message.remove();
+  });
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      message.remove();
+    }
+  });
+  document.addEventListener('click', (evt) => {
+    if (!evt.composedPath().includes(messageAlert)) {
+      message.remove();
+    }
+  });
+  document.body.appendChild(message);
+}
+
 function openForm() {
   overlayForm.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  document.querySelector('.img-upload__preview img').src = URL.createObjectURL(this.files[0]);
 }
 
 function closeForm() {
@@ -27,6 +50,7 @@ function closeForm() {
   pristine.reset();
   document.getElementById('effect-none').checked = true;
   resetEffects();
+  document.querySelector('.img-upload__preview img').src = '';
 }
 
 function checkEscapeDown()
@@ -109,9 +133,20 @@ function photoFormValidation() {
   uploadPhotoForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
-      uploadPhotoForm.submit();
+      submitButton.disabled = true;
+      sendData(
+        () => {
+          showMessage('success');
+        },
+        () => {
+          showMessage('error');
+        },
+        new FormData(evt.target),
+      );
+      submitButton.disabled = false;
+      closeForm();
     }
   });
 }
 
-export {checkEscapeDown, photoFormValidation};
+export {checkEscapeDown, photoFormValidation, closeForm};
