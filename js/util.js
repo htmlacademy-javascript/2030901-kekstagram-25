@@ -1,7 +1,4 @@
 function getRandomInt(min, max){
-  if(min<0||max<0) {
-    return -1;
-  }
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -18,4 +15,12 @@ const showAlert = (text)=>{
   document.body.appendChild(alert);
 };
 
-export {showAlert, getRandomInt, checkLengthString, isEscapeKey};
+const renderingPosts = (callback, timeout) =>{
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeout);
+  };
+};
+
+export {renderingPosts, showAlert, getRandomInt, checkLengthString, isEscapeKey};
