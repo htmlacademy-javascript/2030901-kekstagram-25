@@ -1,14 +1,11 @@
-function getRandomInt(min, max){
+const isEscapeKey = (evt) => evt.key==='Escape';
+
+const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
-function checkLengthString(checkString,maxLength){
-  return checkString.length <= maxLength;
-}
-
-const isEscapeKey = (evt) => evt.key==='Escape';
 const showAlert = (text)=>{
   const alert = document.querySelector('#alert-bad-request').content.querySelector('.alert-bad-request').cloneNode(true);
   alert.textContent = text;
@@ -23,4 +20,4 @@ const renderingPosts = (callback, timeout) =>{
   };
 };
 
-export {renderingPosts, showAlert, getRandomInt, checkLengthString, isEscapeKey};
+export {renderingPosts, showAlert, getRandomInt, isEscapeKey};

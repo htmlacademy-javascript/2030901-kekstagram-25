@@ -1,3 +1,5 @@
+import {isEscapeKey} from './util.js';
+
 const cardBigPhoto = document.querySelector('.big-picture');
 const cardBigPhotoImage = cardBigPhoto.querySelector('.big-picture__img img');
 const closeBigPhoto = document.querySelector('.big-picture__cancel');
@@ -6,10 +8,22 @@ const likesCount = cardBigPhoto.querySelector('.likes-count');
 const commentsCount = cardBigPhoto.querySelector('.comments-count');
 const commentsLoader = document.querySelector('.social__comments-loader');
 const commentsList = cardBigPhoto.querySelector('.social__comments');
+
 let lastCountComments = 0;
 let listCommentsInBlock=[];
 
-function setComments () {
+const onClosePhoto = () => {
+  cardBigPhoto.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+};
+
+const onEscKeydown = (evt) => {
+  if(isEscapeKey(evt)) {
+    onClosePhoto();
+  }
+};
+
+const setComments = () => {
   const countCommentInBlock = document.querySelector('.comments-in-block-count');
   const blockComment = listCommentsInBlock.slice(lastCountComments,lastCountComments+5);
   blockComment.forEach((commentData) => {
@@ -25,11 +39,13 @@ function setComments () {
     commentsLoader.classList.add('hidden');
   }
   countCommentInBlock.textContent = lastCountComments;
-}
+};
 
-function setDataForBigPhoto (card) {
+const setDataPost = (card) => {
   commentsLoader.classList.remove('hidden');
   lastCountComments = 0;
+  closeBigPhoto.removeEventListener('click', onClosePhoto);
+  document.removeEventListener('keydown', onEscKeydown);
   cardBigPhotoImage.src = card.url;
   likesCount.textContent = card.likes;
   listCommentsInBlock = card.comments;
@@ -37,28 +53,20 @@ function setDataForBigPhoto (card) {
   commentsList.innerHTML='';
   setComments();
   cardBigPhoto.classList.remove('hidden');
-  closeBigPhoto.addEventListener('click', () =>{
-    cardBigPhoto.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  });
-  document.addEventListener('keydown', (event) =>{
-    if(event.key === 'Escape') {
-      cardBigPhoto.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-    }
-  });
+  closeBigPhoto.addEventListener('click', onClosePhoto);
+  document.addEventListener('keydown', onEscKeydown);
   commentsLoader.addEventListener('click',setComments);
-}
+};
 
-function createDataForBigPhotos(cards) {
+const createDataForBigPhotos = (cards) => {
   const photo = document.querySelectorAll('.picture');
   for(let i = 0; i < photo.length; i++){
     photo[i].addEventListener('click', (event) => {
       const cardId = event.target.closest('.picture').dataset.cardId;
-      setDataForBigPhoto(cards[cardId]);
+      setDataPost(cards[cardId]);
       document.body.classList.add('modal-open');
     });
   }
-}
+};
 
 export {createDataForBigPhotos};
