@@ -6,6 +6,9 @@ const sliderEffectLevel = document.querySelector('.img-upload__effect-level');
 const valueSliderEffectLevel = document.querySelector('.effect-level__value');
 
 const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+
 let currentEffect = 'none';
 let currentValueScale = parseInt(uploadScaleValue.value, 10);
 
@@ -69,13 +72,13 @@ const EFFECT_PARAMETERS = {
   }
 };
 
-function resetEffects() {
+const resetEffects = () => {
   finalPhoto.className = 'effects effects__preview--none';
   finalPhoto.style.filter = '';
   sliderEffectLevel.classList.add('hidden');
-}
+};
 
-function initialSlider() {
+const initialSlider = () => {
   const slider = document.querySelector('.effect-level__slider');
   const effects = document.querySelector('.img-upload__effects');
   noUiSlider.create(slider, {
@@ -94,26 +97,29 @@ function initialSlider() {
     currentEffect = evt.target.value;
     finalPhoto.className = `effects effects__preview--${currentEffect}`;
     slider.noUiSlider.updateOptions(EFFECT_PARAMETERS[currentEffect]);
-    // eslint-disable-next-line no-unused-expressions
-    currentEffect === 'none'? resetEffects() : sliderEffectLevel.classList.remove('hidden');
+    if(currentEffect === 'none'){
+      resetEffects();
+    }else{
+      sliderEffectLevel.classList.remove('hidden');
+    }
   });
-}
+};
 
-function eventScaleButtons() {
+const eventScaleButtons = () => {
   uploadScale.querySelector('.scale__control--smaller').addEventListener('click', ()=> {
-    if (currentValueScale > 25 && currentValueScale <= 100) {
+    if (currentValueScale > MIN_SCALE && currentValueScale <= MAX_SCALE) {
       currentValueScale -= SCALE_STEP;
       uploadScaleValue.value = `${currentValueScale}%`;
-      photoUploadPreview.style.transform = `scale(${currentValueScale}%)`;
+      finalPhoto.style.transform = `scale(${currentValueScale}%)`;
     }
   });
   uploadScale.querySelector('.scale__control--bigger').addEventListener('click', ()=> {
-    if (currentValueScale >= 25 && currentValueScale < 100) {
+    if (currentValueScale >= MIN_SCALE && currentValueScale < MAX_SCALE) {
       currentValueScale += SCALE_STEP;
       uploadScaleValue.value = `${currentValueScale}%`;
-      photoUploadPreview.style.transform = `scale(${currentValueScale}%)`;
+      finalPhoto.style.transform = `scale(${currentValueScale}%)`;
     }
   });
-}
+};
 
 export {eventScaleButtons, initialSlider, resetEffects};

@@ -1,23 +1,22 @@
 import {renderingPosts, getRandomInt} from './util.js';
-import {showPhotos} from './showPhotos.js';
-import {createDataForBigPhotos} from './openDataPhoto.js';
+import {showPhotos} from './show-photos.js';
+import {createDataForBigPhotos} from './open-data-photo.js';
 
 const filterButtonsBlock = document.querySelector('.img-filters');
 const filterForm = filterButtonsBlock.querySelector('.img-filters__form');
 
 const MAX_RENDERING_TIME = 500;
+const LIMIT_RANDOM_PHOTOS = 10;
 
 const sortByCountComment = (a,b) => b.comments.length - a.comments.length;
 
-const onFilterButtonClick = renderingPosts(sortPostsByFilter, MAX_RENDERING_TIME);
-
-function clearPosts(){
+const clearPosts = () => {
   document.querySelectorAll('.picture').forEach((picture) => {
     picture.remove();
   });
-}
+};
 
-function sortPostsByFilter(cards, filter) {
+const sortPostsByFilter = (cards, filter) => {
   let filteredPosts;
   clearPosts();
   switch (filter){
@@ -25,7 +24,7 @@ function sortPostsByFilter(cards, filter) {
       filteredPosts = cards;
       break;
     case 'filter-random':
-      filteredPosts = cards.slice().sort(()=>getRandomInt(-25,25)).slice(0, 10);
+      filteredPosts = cards.slice().sort(()=>getRandomInt(-25,25)).slice(0, LIMIT_RANDOM_PHOTOS);
       break;
     case 'filter-discussed':
       filteredPosts = cards.slice().sort(sortByCountComment);
@@ -33,9 +32,11 @@ function sortPostsByFilter(cards, filter) {
   }
   showPhotos(filteredPosts);
   createDataForBigPhotos(filteredPosts);
-}
+};
 
-function showFilteredPosts(posts) {
+const onFilterButtonClick = renderingPosts(sortPostsByFilter, MAX_RENDERING_TIME);
+
+const showFilteredPosts = (posts) => {
   showPhotos(posts);
   createDataForBigPhotos(posts);
   filterButtonsBlock.classList.remove('img-filters--inactive');
@@ -44,6 +45,6 @@ function showFilteredPosts(posts) {
     evt.target.classList.add('img-filters__button--active');
     onFilterButtonClick(posts, evt.target.id);
   });
-}
+};
 
 export {showFilteredPosts};

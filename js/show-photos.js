@@ -2,7 +2,7 @@ const usersListPhotos = document.querySelector('.pictures');
 const photoTemplate = document.querySelector('#picture').content;
 const miniPhotos = document.createDocumentFragment();
 
-function showPhotos(photos) {
+const showPhotos = (photos) => {
   photos.forEach(({ url, likes, comments }, index) => {
     const photo = photoTemplate.cloneNode(true);
     photo.querySelector('.picture__img').src = url;
@@ -12,6 +12,6 @@ function showPhotos(photos) {
     miniPhotos.append(photo);
   });
   usersListPhotos.append(miniPhotos);
-}
+};
 
 export {showPhotos};
